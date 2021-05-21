@@ -11,44 +11,21 @@ jobs:
       - uses: actions/checkout@v2
       - run: dotnet test -p:CollectCoverage=true -p:CoverletOutputFormat=opencover --logger=trx
   #-----------------ANALYZE------------------------
-  Analyze:
+  analyze:
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN}}
+    needs:
+      - build
+      - test
     runs-on: ubuntu-20.04
     steps:
-      - name: Set up JDK 11
-        uses: actions/setup-java@v1
-        with:
-          java-version: 1.11
       - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
-      - name: Cache SonarCloud packages
-        uses: actions/cache@v1
-        with:
-          path: ~\sonar\cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
-      - name: Cache SonarCloud scanner
-        id: cache-sonar-scanner
-        uses: actions/cache@v1
-        with:
-          path: .\.sonar\scanner
-          key: ${{ runner.os }}-sonar-scanner
-          restore-keys: ${{ runner.os }}-sonar-scanner
-      - name: Install SonarCloud scanner
-        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
-        shell: bash
-        run: |
-          New-Item -Path .\.sonar\scanner -ItemType Directory
-          dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
-      - name: Build and analyze
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        shell: bash
-        run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"Music-Garden_Music_Garden" /o:"music-garden" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+      - run: dotnet tool install --global dotnet-sonarscanner
+      - run: |
+          dotnet sonarscanner begin -k:'Music-Garden_webapi' -o:'music-garden' -d:sonar.host.url='https://sonarcloud.io' -d:sonar.login=$SONAR_TOKEN -d:sonar.cs.opencover.reportsPaths='./test_coverage/*.xml' -d:sonar.cs.vstest.reportsPaths='./test_result/*.trx'
           dotnet build
-          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+          dotnet sonarscanner end -d:sonar.login=$SONAR_TOKEN
 
   #-------------------PACKAGE-----------------------------
   package:
@@ -76,7 +53,7 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
       - uses: azure/webapps-deploy@v2
         with:
-          app-name: funtasm-pizzaboxweb
+          app-name: musicgardenwebapi
           images: musicgarden/webapi
 
 name: ci-pipeline
