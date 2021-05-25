@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using Microsoft.Extensions.Configuration;
+using MusicGarden.Domain.Models;
 using Newtonsoft.Json;
 
 
@@ -25,7 +26,7 @@ namespace Medialab.Client.Controllers
     }
 
     [HttpGet]
-    public object Index()
+    public Album Index()
     {
       var response = client.GetAsync($"{_configuration["Services:webapi"]}").GetAwaiter().GetResult();
 
@@ -33,9 +34,9 @@ namespace Medialab.Client.Controllers
 
       if (response.IsSuccessStatusCode)
       {
-        var result = JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().GetAwaiter().GetResult());
+        var Album = JsonConvert.DeserializeObject<Album>(response.Content.ReadAsStringAsync().GetAwaiter().GetResult());
 
-        return result;
+        return Album;
       }
 
       return null;
