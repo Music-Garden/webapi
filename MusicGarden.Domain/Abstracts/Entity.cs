@@ -1,4 +1,4 @@
-namespace Music_Garden.Music_Garden.Domain.Abstracts
+namespace webapi.MusicGarden.Domain.Abstracts
 {
     public class Entity
     {
