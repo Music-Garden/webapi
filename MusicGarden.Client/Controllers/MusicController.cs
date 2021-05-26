@@ -8,9 +8,9 @@ using Microsoft.Extensions.Logging;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using Microsoft.Extensions.Configuration;
-using webapi.MusicGarden.Domain.Models;
 using Newtonsoft.Json;
 using System.Net.Http.Json;
+using MusicGarden.Domain.Models;
 
 namespace MusicGarden.Client.Controllers
 {
@@ -30,12 +30,10 @@ namespace MusicGarden.Client.Controllers
     {
       var response = client.GetAsync($"{_configuration["Services:webapi"]}/album/302127").GetAwaiter().GetResult();
 
-      object info = new object();
-
       if (response.IsSuccessStatusCode)
       {
         //var Album = JsonConvert.DeserializeObject<Album>(response.Content.ReadAsStringAsync().GetAwaiter().GetResult());
-        var Album = await response.Content.ReadFromJsonAsync<Album>();
+        var Album = JsonConvert.DeserializeObject<Album>(response.Content.ReadAsStringAsync().GetAwaiter().GetResult());
         return Album;
       }
 
@@ -44,21 +42,22 @@ namespace MusicGarden.Client.Controllers
     }
 
     [HttpGet]
-    public async Task<Search> SearchAsync(String name)
+    public async Task<string> SearchAsync(String name)
     {
       name = "i need a dollar";
-      var response = client.GetAsync("https://api.deezer.com/search?q=track:i%20need%20a%20dollar:").GetAwaiter().GetResult();
+      var response = client.GetAsync($"{_configuration["Services:webapi"]}/search?q=track:{name}").GetAwaiter().GetResult();
 
+      string songlink;
       object info = new object();
 
       if (response.IsSuccessStatusCode)
       {
 
         //Search search = await response.Content.ReadFromJsonAsync<Search>();
-        Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(response);
+        RootSearch search = JsonConvert.DeserializeObject<RootSearch>(response.Content.ReadAsStringAsync().GetAwaiter().GetResult());
+        songlink = search.data[0].link;
 
-
-        return search;
+        return songlink;
       }
 
       return null;

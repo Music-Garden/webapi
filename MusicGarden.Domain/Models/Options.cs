@@ -1,7 +1,7 @@
 using System;
 using webapi.MusicGarden.Domain.Abstracts;
 
-namespace webapi.MusicGarden.Domain.Models
+namespace MusicGarden.Domain.Models
 {
     public class Options
     {
