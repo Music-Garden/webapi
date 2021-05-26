@@ -17,7 +17,7 @@ namespace webapi.MusicGarden.Domain.Models
     public string cover_xl { get; set; }
     public string md5_image { get; set; }
     public int genre_id { get; set; }
-    public List<Genre> genres { get; set; }
+    //public List<Genre> genres { get; set; }
     public string label { get; set; }
     public int nb_tracks { get; set; }
     public int duration { get; set; }
@@ -31,7 +31,7 @@ namespace webapi.MusicGarden.Domain.Models
     public bool explicit_lyrics { get; set; }
     public int explicit_content_cover { get; set; }
     public int explicit_content_lyrics { get; set; }
-    public List<string> contributors { get; set; }
+    //public List<string> contributors { get; set; }
     public Artist artist { get; set; }
     public List<Track> tracks { get; set; }
   }
