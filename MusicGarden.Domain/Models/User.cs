@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using webapi.MusicGarden.Domain.Abstracts;
+using MusicGarden.Domain.Abstracts;
 
 namespace webapi.MusicGarden.Domain.Models
 {
@@ -26,5 +26,6 @@ namespace webapi.MusicGarden.Domain.Models
         public string explicit_content_level { get; set; }
         public Array explicit_content_levels_available { get; set; }
         public string tracklist { get; set; }
+        public List<Playlist> playlists { get; set; }
     }
 }

@@ -1,5 +1,5 @@
 using System;
-using webapi.MusicGarden.Domain.Abstracts;
+using MusicGarden.Domain.Abstracts;
 
 namespace webapi.MusicGarden.Domain.Models
 {
