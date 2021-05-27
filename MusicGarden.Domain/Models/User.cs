@@ -27,5 +27,13 @@ namespace webapi.MusicGarden.Domain.Models
         public Array explicit_content_levels_available { get; set; }
         public string tracklist { get; set; }
         public List<Playlist> playlists { get; set; }
+
+        public void ToPlaylist()
+        {
+            for (int i = 0; i < playlists.Count; i++)
+            {
+
+            }
+        }
     }
 }
