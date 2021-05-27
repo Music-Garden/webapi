@@ -42,12 +42,11 @@ namespace MusicGarden.Client.Controllers
     }
 
     [HttpGet]
-    public async Task<string> SearchAsync(String name)
+    public async Task<List<string>> SearchAsync(String name)
     {
-      name = "i need a dollar";
       var response = client.GetAsync($"{_configuration["Services:webapi"]}/search?q=track:{name}").GetAwaiter().GetResult();
 
-      string songlink;
+      List<string> songlink = new List<string>();
       object info = new object();
 
       if (response.IsSuccessStatusCode)
@@ -55,7 +54,10 @@ namespace MusicGarden.Client.Controllers
 
         //Search search = await response.Content.ReadFromJsonAsync<Search>();
         RootSearch search = JsonConvert.DeserializeObject<RootSearch>(response.Content.ReadAsStringAsync().GetAwaiter().GetResult());
-        songlink = search.data[0].link;
+        foreach (var item in search.data)
+        {
+          songlink.Add(item.link);
+        }
 
         return songlink;
       }
