@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
-using MusicGarden.Domain.Models;
-using webapi.MusicGarden.Domain.Abstracts;
+using MusicGarden.Domain.Abstracts;
 
 namespace MusicGarden.Domain.Models
 {

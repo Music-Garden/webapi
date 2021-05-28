@@ -1,6 +1,4 @@
-using System;
-using webapi.MusicGarden.Domain.Abstracts;
-using Newtonsoft.Json;
+using MusicGarden.Domain.Abstracts;
 
 namespace MusicGarden.Domain.Models
 {

@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System.Net.Http.Json;
 using MusicGarden.Domain.Models;
+using MusicGarden.Storage;
 
 namespace MusicGarden.Client.Controllers
 {
@@ -20,9 +21,11 @@ namespace MusicGarden.Client.Controllers
   {
     private static readonly HttpClient client = new HttpClient();
     private IConfiguration _configuration;
-    public MusicController(IConfiguration configuration)
+    private readonly RepoCollection _repoCollection;
+    public MusicController(IConfiguration configuration, RepoCollection repoCollection)
     {
       _configuration = configuration;
+      _repoCollection = repoCollection;
     }
 
     [HttpGet]
@@ -65,19 +68,39 @@ namespace MusicGarden.Client.Controllers
       return null;
 
     }
+    [HttpGet]
+    public async Task<string> SavePlaylistAsync(string playlistname, string track)
+    {
+      var playlists = _repoCollection.playlistRepo.Select<SavingPlaylist>(_repoCollection.con.Playlists, a => a.playlistname == playlistname).FirstOrDefault();
+      if (playlists != null)
+      {
+        playlists.Tracks.Add(new SavingTrack() { trackname = track });
+        _repoCollection.playlistRepo.Update<SavingPlaylist>(_repoCollection.con.Playlists, playlists);
+      }
+      else
+      {
+        SavingPlaylist tempplaylists = new SavingPlaylist();
+        tempplaylists.Tracks.Add(new SavingTrack() { trackname = track });
+        tempplaylists.playlistname = playlistname;
+        _repoCollection.playlistRepo.Insert<SavingPlaylist>(_repoCollection.con.Playlists, tempplaylists);
+      }
+      _repoCollection.Save();
+
+      return "success";
+
+    }
+    public async Task<List<string>> ReadPlaylistAsync(String pname)
+    {
+      var playlists = _repoCollection.playlistRepo.Select<SavingPlaylist>(_repoCollection.con.Playlists, a => a.playlistname == pname).FirstOrDefault();
+      List<string> returnlist = new List<string>();
+      foreach (var item in playlists.Tracks)
+      {
+        returnlist.Add(item.trackname);
+      }
+      return returnlist;
+    }
 
 
-    // [HttpGet]
-    // public List<string> Get()
-    // {
 
-    //   return new List<string>{
-
-    //             "R&B",
-    //             "Rap"
-
-    //         };
-
-    //}
   }
 }

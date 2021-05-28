@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using webapi.MusicGarden.Domain.Abstracts;
+using MusicGarden.Domain.Abstracts;
 
 namespace MusicGarden.Domain.Models
 {
@@ -24,11 +24,12 @@ namespace MusicGarden.Domain.Models
     public string preview { get; set; }
     public float bpm { get; set; }
     public float gain { get; set; }
-    //public List<string> available_countries { get; set; }
+    public List<string> available_countries { get; set; }
     public Track alternative { get; set; }
-    //public List<string> contributors { get; set; }
+    public List<string> contributors { get; set; }
     public string md5_image { get; set; }
     public Artist artist { get; set; }
     public Album album { get; set; }
+    public List<Playlist> playlists { get; set; }
   }
 }
