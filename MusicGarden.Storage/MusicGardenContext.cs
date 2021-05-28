@@ -14,8 +14,8 @@ namespace MusicGarden.Storage
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-      builder.Entity<SavingPlaylist>().HasKey(e => e.id);
-      builder.Entity<SavingTrack>().HasKey(e => e.id);
+      builder.Entity<SavingPlaylist>().HasKey(e => e.unique_ID);
+      builder.Entity<SavingTrack>().HasKey(e => e.unique_ID);
       //builder.Entity<User>().HasKey(e => e.id);
 
       //   builder.Entity<Playlist>().HasMany<Track>(p => p.tracks).WithMany(t => t.playlists);

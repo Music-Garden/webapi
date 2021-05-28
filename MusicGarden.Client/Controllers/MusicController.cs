@@ -71,7 +71,7 @@ namespace MusicGarden.Client.Controllers
     [HttpGet]
     public async Task<string> SavePlaylistAsync(string playlistname, string track)
     {
-      var playlists = _repoCollection.playlistRepo.Select<SavingPlaylist>(_repoCollection.con.Playlists, a => a.playlistname == playlistname).FirstOrDefault();
+      var playlists = _repoCollection.playlistRepo.Select(a => a.playlistname == playlistname).FirstOrDefault();
       if (playlists != null)
       {
         playlists.Tracks.Add(new SavingTrack() { trackname = track });
@@ -91,7 +91,7 @@ namespace MusicGarden.Client.Controllers
     }
     public async Task<List<string>> ReadPlaylistAsync(String pname)
     {
-      var playlists = _repoCollection.playlistRepo.Select<SavingPlaylist>(_repoCollection.con.Playlists, a => a.playlistname == pname).FirstOrDefault();
+      var playlists = _repoCollection.playlistRepo.Select(a => a.playlistname == pname).FirstOrDefault();
       List<string> returnlist = new List<string>();
       foreach (var item in playlists.Tracks)
       {
