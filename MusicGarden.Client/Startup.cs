@@ -23,7 +23,7 @@ namespace Medialab.Client
       Configuration = configuration;
     }
 
-    public IConfiguration Configuration { get; }
+    public IConfiguration Configuration { get; set; }
 
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
@@ -42,7 +42,7 @@ namespace Medialab.Client
       services.AddControllers();
       services.AddSwaggerGen(c =>
       {
-        c.SwaggerDoc("v1", new OpenApiInfo { Title = "Medialab.Client", Version = "v1" });
+        c.SwaggerDoc("v1", new OpenApiInfo { Title = "MusicGarden.Client", Version = "v1" });
       });
       services.AddDbContext<MusicGardenContext>(options =>
      {
@@ -57,7 +57,7 @@ namespace Medialab.Client
       {
         app.UseDeveloperExceptionPage();
         app.UseSwagger();
-        app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Medialab.Client v1"));
+        app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MusicGarden.Client v1"));
       }
 
       app.UseHttpsRedirection();
