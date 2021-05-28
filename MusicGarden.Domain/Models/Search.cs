@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using MusicGarden.Domain.Abstracts;
 
-namespace webapi.MusicGarden.Domain.Models
+namespace MusicGarden.Domain.Models
 {
     public class Search : Entity
     {
@@ -16,7 +16,6 @@ namespace webapi.MusicGarden.Domain.Models
         public string preview { get; set; }
         public Artist artist { get; set; }
         public Album album { get; set; }
-        public bool strict { get; set; }
-        public List<object> order { get; set; }
+
     }
 }

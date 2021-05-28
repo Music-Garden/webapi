@@ -1,25 +1,33 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using MusicGarden.Domain.Interfaces;
-using webapi.MusicGarden.Domain.Models;
+using MusicGarden.Domain.Models;
 
 namespace MusicGarden.Storage
 {
     public class TrackRepository : IRepository<Track>
     {
+        private MusicGardenContext _con;
+        public TrackRepository(MusicGardenContext con)
+        {
+            _con = con;
+        }
         public bool Destroy(Track entry)
         {
-            throw new NotImplementedException();
+            _con.Tracks.Remove(entry);
+            return true;
         }
 
         public bool Insert(Track entry)
         {
-            throw new NotImplementedException();
+            _con.Tracks.Add(entry);
+            return true;
         }
 
         public IEnumerable<Track> Select(Func<Track, bool> filter)
         {
-            throw new NotImplementedException();
+            return _con.Tracks.Where(filter);
         }
 
         public Track Upgrade()

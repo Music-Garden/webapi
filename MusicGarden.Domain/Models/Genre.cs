@@ -1,6 +1,8 @@
+using System;
 using MusicGarden.Domain.Abstracts;
+using Newtonsoft.Json;
 
-namespace webapi.MusicGarden.Domain.Models
+namespace MusicGarden.Domain.Models
 {
     public class Genre : Entity
     {

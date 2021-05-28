@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using MusicGarden.Domain.Abstracts;
 
-namespace webapi.MusicGarden.Domain.Models
+namespace MusicGarden.Domain.Models
 {
     public class Chart : Entity
     {

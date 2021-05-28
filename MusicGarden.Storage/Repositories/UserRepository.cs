@@ -1,25 +1,33 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using MusicGarden.Domain.Interfaces;
-using webapi.MusicGarden.Domain.Models;
+using MusicGarden.Domain.Models;
 
 namespace MusicGarden.Storage.Repositories
 {
     public class UserRepository : IRepository<User>
     {
+        private MusicGardenContext _con;
+        public UserRepository(MusicGardenContext con)
+        {
+            _con = con;
+        }
         public bool Destroy(User entry)
         {
-            throw new NotImplementedException();
+            _con.Users.Remove(entry);
+            return true;
         }
 
         public bool Insert(User entry)
         {
-            throw new NotImplementedException();
+            _con.Users.Add(entry);
+            return true;
         }
 
         public IEnumerable<User> Select(Func<User, bool> filter)
         {
-            throw new NotImplementedException();
+            return _con.Users.Where(filter);
         }
 
         public User Upgrade()

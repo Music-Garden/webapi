@@ -1,15 +1,10 @@
-using System;
-using MusicGarden.Domain.Abstracts;
-
 namespace MusicGarden.Domain.Models
 {
-  public class Episode : Entity
+
+  public class Contributor
   {
-    public string title { get; set; }
-    public string description { get; set; }
-    public bool available { get; set; }
-    public DateTime release_date { get; set; }
-    public int duration { get; set; }
+    public int id { get; set; }
+    public string name { get; set; }
     public string link { get; set; }
     public string share { get; set; }
     public string picture { get; set; }
@@ -17,6 +12,10 @@ namespace MusicGarden.Domain.Models
     public string picture_medium { get; set; }
     public string picture_big { get; set; }
     public string picture_xl { get; set; }
-    public Podcast podcast { get; set; }
+    public bool radio { get; set; }
+    public string tracklist { get; set; }
+    public string type { get; set; }
+    public string role { get; set; }
   }
+
 }
